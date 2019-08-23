@@ -1,0 +1,72 @@
+https://towardsdatascience.com/pre-trained-word-embeddings-or-embedding-layer-a-dilemma-8406959fd76c
+
+https://github.com/chakki-works/chakin
+
+pre-trained glove english (400k vocabs and 300d)
+
+https://roamanalytics.com/2018/07/09/fine-tuning-glove-representations/
+
+The caveat is that our implementation is only suitable 
+for modest vocabularies (up to ~20k tokens should be fine) 
+since the co-occurrence matrix must be held in memory. (Mittens), so vocabsize = 20k
+
+Load big embedding into array:
+https://www.cs.swarthmore.edu/~richardw/classes/cs65/f18/lab03.html
+
+vocab size 15k possible since tensorflow can create tensor more than 2GB, so I used 15k vocab
+ Glove embedding paper used negative sampling size 10, so i used for ABAE n=10
+
+ sshfs  mghosh@social2.cm.in.tum.de:/home/mghosh/mainak /home/shayoni/mainak/remote_social2/
+
+ used shutil.copyfileobj to concate embeddings. It's superfast.
+
+ reduced same letter to 2 length: https://rustyonrampage.github.io/text-mining/2017/11/28/spelling-correction-with-python-and-nltk.html
+ remove  website link, corrected some words
+
+ aspect2 : sustainability.
+ aspect3 : 
+ aspect4 : compound noun, used seldomly.
+ aspect5 : colloquial
+ aspect6 : measuring things.
+ aspect8 : shopping, product.
+ aspect9 : regulation
+ aspect10:
+ aspect11:ingredients, food product
+ aspect12:
+ aspect13:adjectives, strong advective for severe consequences
+ aspect14:animals
+ aspect15:
+ aspect16:
+ aspect17:competition, corruption
+ aspect18:products, incoherent product, food 50%
+ aspect19:unrelated verb
+ aspect20:
+
+ filtered english data on organic, conventional, gm, gmo, gentically modified, food
+ filtering result:
+#original_comments: 187243
+#filterd_comments: 69342
+
+glove fully train config:
+CORPUS=text8
+VOCAB_FILE=vocab.txt
+COOCCURRENCE_FILE=cooccurrence.bin
+COOCCURRENCE_SHUF_FILE=cooccurrence.shuf.bin
+BUILDDIR=build
+SAVE_FILE=vectors
+VERBOSE=2
+MEMORY=4.0
+VOCAB_MIN_COUNT=5
+VECTOR_SIZE=300
+MAX_ITER=15
+WINDOW_SIZE=15
+BINARY=2
+NUM_THREADS=12
+X_MAX=10
+
+w2v fine tuned by making embedding layer trainable, orthogonal procrustes, canonical correlation analysis,
+kernalized canonical correlation analysis.
+
+topic coherence measurement:https://github.com/jhlau/topic_interpretability
+UMass which i used initially measure how well topic data captured the CORPUS
+studied lot of paper about topic coherence, as per them NPMI is best correlated to human judgement

@@ -13,7 +13,7 @@ import itertools
 import pickle
 from mittens import Mittens
 import configuration as config
-import fasttext
+from sklearn.externals import joblib
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s\t%(message)s")
@@ -27,27 +27,22 @@ class Sentences(object):
         for line in codecs.open(self.filename, 'r', 'utf-8'):
             yield line.split()
 
+
 def w2v(source,emb_dim):
     sentences = Sentences(source)
     model = gensim.models.Word2Vec(sentences, iter=15, size=emb_dim, window=10, min_count=5, workers=multiprocessing.cpu_count())
     return model
 
-def fasttext_embedding(source,method,emb_dim):
-    model = FT_gensim(size=emb_dim)
+
+def fasttext_embedding(source, method, emb_dim):
+    model = FT_gensim(size=emb_dim, window=10, sg=1, min_count=5, workers=multiprocessing.cpu_count(), negative=10)
     # build the vocabulary
-    model.build_vocab(corpus_file=source)
+    model.build_vocab(sentences=Sentences(source))
     # train the model
     model.train(
-        model=method, window=10,
-        corpus_file=source, epochs=15, min_count = 50,
+        sentences=Sentences(source), epochs=15, 
         total_examples=model.corpus_count, total_words=model.corpus_total_words
     )
-    return model
-
-
-def fasttext_embedding_de(source,method,emb_dim):
-    model = fasttext.train_unsupervised(source, model=method, dim=emb_dim, ws=10, epoch=15, minCount=5, thread=multiprocessing.cpu_count(), neg=10)
-    # build the vocabulary
     return model
 
 
@@ -109,11 +104,13 @@ class Glove(object):
     def get_original_embedding(self, filename):
         embed_dict = {}
         fin = codecs.open(filename, 'r', 'utf-8')
-        for line in fin.readlines():
+        for line in fin:
+            line = line.strip()
             splitted_line = line.strip().split()
             word = splitted_line[0]
             embedding = np.asarray(splitted_line[1:], dtype=np.float64)
             embed_dict[word] = embedding
+        fin.close()
         return embed_dict
 
     def convert_cooccurence_matrix(self, cooccurence, vocab_size):
@@ -136,9 +133,9 @@ class Glove(object):
         return vocab
 
     def load_cooccurence_matrix(self, cooccurence_file):
-        file1 = open(cooccurence_file, 'rb')
-        cooccurence = pickle.load(file1)
-        file1.close()
+        #file1 = open(cooccurence_file, 'rb')
+        cooccurence = joblib.load(cooccurence_file)
+        #file1.close()
         logger.info('Cooccurence to matrix of shape: {}'.format(cooccurence.shape))
         return cooccurence
 
@@ -208,9 +205,9 @@ def glove_embedding(filename, vocab_file, cooccurence_file, lang):
         cooccurrences = gv.build_cooccur(vocab, corpus)
         cooccurrences = gv.convert_cooccurence_matrix(cooccurrences, len(vocab))
         cooccurrence_file = config.glove_fine_tuned_cooccurance[lang]
-        outfile = open(cooccurrence_file, 'wb')
-        pickle.dump(cooccurrences, outfile)
-        outfile.close()
+        #outfile = open(cooccurrence_file, 'wb')
+        joblib.dump(cooccurrences, cooccurrence_file)
+        #outfile.close()
         logger.info("Cooccurrence list fetch complete (%i pairs).\n", cooccurrences.shape[0])
 
 
@@ -244,21 +241,18 @@ def main():
         model.save(model_file)
     elif args.emb_name=="fasttext":
         print('training fasttext word embeddings for {}...'.format(args.lang))
-        method=args.fasttext_emb_method
+        method = args.fasttext_emb_method
         emb_dim = args.emb_dim
+        model = fasttext_embedding(source, method, emb_dim)
         if args.lang == 'en':
-            model=fasttext_embedding(source,method,emb_dim)
             model_file = config.emb_dir_en['fasttext'].format(config.word_emb_training_type)+'/w2v_embedding_'+args.fasttext_emb_method+"_"+str(emb_dim)
-            createPath(model_file)
-            model.save(model_file)
         elif args.lang == 'de':
-            model = fasttext_embedding_de(source,method,emb_dim)
             model_file = config.emb_dir_de['fasttext'].format(config.word_emb_training_type)+'/w2v_embedding_'+args.fasttext_emb_method+"_"+str(emb_dim)
-            createPath(model_file)
-            model.save_model(model_file)
+        createPath(model_file)
+        model.save(model_file)
     elif args.emb_name == 'glove':
         logger.info('Generate glove embedding...')
-        glove_embedding(args.source_file, args.glove_vocab, args.glove_cooccurence, args.lang)
+        glove_embedding(source, args.glove_vocab, args.glove_cooccurence, args.lang)
     else:
         print("Wrong embedding name")
 

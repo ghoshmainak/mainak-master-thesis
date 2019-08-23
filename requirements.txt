@@ -1,0 +1,10 @@
+keras
+nltk
+spacy
+listify
+gensim
+mittens
+seaborn
+ray
+chakin
+palmettopy
