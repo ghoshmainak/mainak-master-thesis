@@ -45,7 +45,7 @@ def create_vocab(maxlen=0, vocab_size=0, lang='en'):
         print('keep the top %i words' % vocab_size)
     return vocab
 
-    # Write (vocab, frequence) to a txt file
+"""     # Write (vocab, frequence) to a txt file
     if lang == 'de':
         vocab_file = codecs.open(config.vocab_file['de'].format(config.filter_word_on), mode='w', encoding='utf8')
     else:
@@ -56,7 +56,7 @@ def create_vocab(maxlen=0, vocab_size=0, lang='en'):
             vocab_file.write(word + '\t' + str(0) + '\n')
             continue
         vocab_file.write(word + '\t' + str(word_freqs[word]) + '\n')
-    vocab_file.close()
+    vocab_file.close() """
     
 
 

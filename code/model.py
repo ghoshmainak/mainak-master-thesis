@@ -29,9 +29,9 @@ def create_model(args, maxlen, vocab):
                 emb_reader = EmbReader(config.emb_dir_en["w2v"].format(config.word_emb_training_type), 
                 args.emb_name)
             elif args.lang == 'de':
-                emb_reader = EmbReader(config.emb_dir_de["w2v"].format(config.word_emb_training_type), 
-                args.emb_name)
-            #emb_reader = FineTuneEmbed_kcca('../preprocessed_data/w2v/fine_tuned','w2v_emb_1000k','../preprocessed_data/w2v/full_trained', 'w2v_embedding_300')
+                #emb_reader = EmbReader(config.emb_dir_de["w2v"].format(config.word_emb_training_type), 
+                #args.emb_name)
+                emb_reader = FineTuneEmbed_ortho_procrustes('../preprocessed_data/german/w2v/fine_tuned','w2v_emb','../preprocessed_data/german/w2v/full_trained', 'w2v_embedding_300')
         elif args.emb_technique == 'fasttext':
             if args.lang == 'en':
                 emb_reader = FastTextEmbReader(config.emb_dir_en["fasttext"].format(config.word_emb_training_type),

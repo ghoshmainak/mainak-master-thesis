@@ -1,8 +1,8 @@
 filter_word_on = '_filtered'
 fasttext_method = 'skipgram'
 num_most_common_words = 18000
-word_emb_training_type = 'full_trained'
-fine_tuned_enabled = False
+word_emb_training_type = 'fine_tuned'
+fine_tuned_enabled = True
 data_source = {
     "en": '../preprocessed_data/whole_comments{}.txt',
     "de": '../preprocessed_data/german/whole_comments{}.txt',
@@ -19,7 +19,7 @@ emb_dir_en = {
     "glove": "../preprocessed_data/glove/{}",
 }
 emb_dir_de = {
-    "glove": "../preprocessed_data/german/glove/fine_tune",
+    "glove": "../preprocessed_data/german/glove/full_trained",
     "w2v": "../preprocessed_data/german/w2v/{}",
     "fasttext": "../preprocessed_data/german/fasttext/{}"
 }
@@ -50,15 +50,15 @@ glove_pretrained_emb = {
 }
 glove_fine_tuned_emb = {
     'en': '../preprocessed_data/glove/fine_tuned/fine_tuned_glove_300',
-    'de': '../preprocessed_data/german/glove/fine_tune/fine_tuned_glove_300'
+    'de': '../preprocessed_data/german/glove/fine_tuned/fine_tuned_glove_300'
 }
 glove_fine_tuned_vocab = {
     'en': '../preprocessed_data/glove/fine_tuned/vocab.pkl',
-    'de': '../preprocessed_data/german/glove/fine_tune/vocab.pkl'
+    'de': '../preprocessed_data/german/glove/fine_tuned/vocab.pkl'
 }
 glove_fine_tuned_cooccurance = {
     'en': '../preprocessed_data/glove/fine_tuned/cooccurrence.pkl',
-    'de': '../preprocessed_data/german/glove/fine_tune/cooccurrence.pkl'
+    'de': '../preprocessed_data/german/glove/fine_tuned/cooccurrence.pkl'
 }
 garbage_words = ['uhh', 'uhm', '_blank', 'ww', 'www', 'com', 'http', 'umm', 'yep', 'hey',
 'hmm', 'e', 'u', 'etc', 'te', 'ki', 'cu', 'en', 'ek', 'mn', 'se',
