@@ -121,8 +121,8 @@ def getWordList(filename):
 
 def getCoherenceScore(file_name, corpus):
     wordListArray = getWordList(file_name)
-    #cs = CoherenceScore.fromFile(wordListArray, corpus)
-    cs = NPMI_score.fromFile(wordListArray, corpus)
+    cs = CoherenceScore.fromFile(wordListArray, corpus)
+    #cs = NPMI_score.fromFile(wordListArray, corpus)
     cluster_size, cluster_wise_cs = cs.getCoherenceScoreAllClusters()
     return cluster_size, file_name, cluster_wise_cs, cs.getModelCoherenceScore(stat_method='mean'), cs.word_not_available_in_doc
 

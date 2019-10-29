@@ -25,23 +25,23 @@ emb_dir_de = {
 }
 emb_dir_biling = {
     "en_2_de_on": True,
-    "supervided": "../MUSE_embedding/supervised/en_2_de",
-    "unsupervided": "../MUSE_embedding/unsupervised/en_2_de"
+    "supervised": "../MUSE_embedding/supervised/en_2_de",
+    "unsupervised": "../MUSE_embedding/unsupervised/en_2_de"
 }
 aspect_file_name = {
     "en": "../post_train_output/{}/{}/epoch_{}{}/aspect_{}_{}.log",
     "de": "../post_train_output/german/{}/{}/epoch_{}{}/aspect_{}_{}.log",
-    "biling": "../post_train_output/bilingual/{}{}/epoch_{}/aspect_{}_{}.log"
+    "biling": "../post_train_output/bilingual/{}{}/en_2_de/epoch_{}{}/aspect_{}_{}.log"
 }
 model_param_file = {
     "en": "../post_train_output/{}/{}/epoch_{}{}/model_param",
     "de": "../post_train_output/german/{}/{}/epoch_{}{}/model_param",
-    "biling": "../post_train_output/bilingual/{}/epoch_{}{}/model_param"
+    "biling": "../post_train_output/bilingual/{}{}/en_2_de/epoch_{}{}/model_param_22"
 }
 image_path = {
     "en": "../images/{}/{}/epoch_{}{}/{}",
     "de": "../images/german/{}/{}/epoch_{}{}/{}",
-    "biling": "../images/bilingual/{}/epoch_{}{}/{}",
+    "biling": "../images/bilingual/{}{}/en_2_de/epoch_{}{}/{}",
     "file_name": "tr_err_vs_k_{}_{}.png"
 }
 glove_pretrained_emb = {

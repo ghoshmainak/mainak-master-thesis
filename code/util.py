@@ -57,6 +57,7 @@ def extractComment(inputFile, outputFile):
         data = json.load(f)
     pd_data = json_normalize(data, record_path="comments", meta=[
                              'article_source', 'resource_type', 'relevant'])
+    #print('file name: ', READ_PATH)
     print("total aticles", len(pd_data))
     rel_pd_data = pd_data[pd_data.relevant == 1]
     print("relevant aticles", len(rel_pd_data))

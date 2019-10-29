@@ -31,11 +31,12 @@ def create_model(args, maxlen, vocab):
             elif args.lang == 'de':
                 #emb_reader = EmbReader(config.emb_dir_de["w2v"].format(config.word_emb_training_type), 
                 #args.emb_name)
-                emb_reader = FineTuneEmbed_ortho_procrustes('../preprocessed_data/german/w2v/fine_tuned','w2v_emb','../preprocessed_data/german/w2v/full_trained', 'w2v_embedding_300')
+                emb_reader = FineTuneEmbed_cca('../preprocessed_data/german/w2v/fine_tuned','w2v_emb','../preprocessed_data/german/w2v/full_trained', 'w2v_embedding_300')
         elif args.emb_technique == 'fasttext':
             if args.lang == 'en':
-                emb_reader = FastTextEmbReader(config.emb_dir_en["fasttext"].format(config.word_emb_training_type),
-                args.emb_name, config.fine_tuned_enabled)
+                #emb_reader = FastTextEmbReader(config.emb_dir_en["fasttext"].format(config.word_emb_training_type),
+                #args.emb_name, config.fine_tuned_enabled)
+                emb_reader = FineTuneEmbed_ortho_procrustes('../preprocessed_data/fasttext/fine_tuned','fasttext_pre_trained','../preprocessed_data/fasttext/full_trained', 'w2v_embedding_skipgram_300')
             elif args.lang == 'de':
                 emb_reader = FastTextEmbReader(config.emb_dir_de["fasttext"].format(config.word_emb_training_type),
                 args.emb_name, config.fine_tuned_enabled)               

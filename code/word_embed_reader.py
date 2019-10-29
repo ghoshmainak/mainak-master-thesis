@@ -259,18 +259,6 @@ class FineTuneEmbed_cca(W2VEmbReader):
             emb_matrix = np.add(0.5*common_pre_train_embedding, 0.5*common_full_train_embedding)
             for i, word in enumerate(common_word_order):
                 self.embeddings[word] = 0.5*common_pre_train_embedding[i] + 0.5*common_full_train_embedding[i]
-            # new things for german only
-            logger.info('Transforming words present only in trained from scratch model')
-            exclusive_full_train_embedding = [list(full_train_model[word]) for _, word in enumerate(full_train_model.wv.vocab) if word not in common_word_order]
-            exclusive_full_train_embedding = np.asarray(exclusive_full_train_embedding)
-            exclusive_full_train_embedding = cca.transform(exclusive_full_train_embedding)
-            index = 0
-            for _, word in enumerate(full_train_model.wv.vocab):
-                if word not in common_word_order:
-                    self.embeddings[word] = exclusive_full_train_embedding[index]
-                    index += 1
-            emb_matrix = np.concatenate((emb_matrix, exclusive_full_train_embedding), axis=0)
-            logger.info('Transformation done.')
             fout = open(hypbrid_embed, 'wb')
             info = {}
             info['emb_dim'] = self.emb_dim

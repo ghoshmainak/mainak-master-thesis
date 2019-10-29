@@ -70,3 +70,11 @@ kernalized canonical correlation analysis.
 topic coherence measurement:https://github.com/jhlau/topic_interpretability
 UMass which i used initially measure how well topic data captured the CORPUS
 studied lot of paper about topic coherence, as per them NPMI is best correlated to human judgement
+
+after filtering German data:
+2019-08-20 21:32:51,511 INFO #original_comments: 288625
+2019-08-20 21:32:51,686 INFO #filterd_comments: 40620
+
+used https://github.com/artetxem/vecmap/blob/master/ for orthogonal_procrustes
+
+de wiki w2v embedding : https://wikipedia2vec.github.io/wikipedia2vec/pretrained/
